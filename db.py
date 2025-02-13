@@ -1,23 +1,41 @@
 import sqlite3
 
-banco = sqlite3.connect('database.db')
-cursor = banco.cursor()
+# Função para conectar ao banco de dados
+def conectar():
+    return sqlite3.connect('database.db')
 
-#cursor.execute("CREATE TABLE usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, usuario TEXT NOT NULL, senha TEXT NOT NULL)")
+# Função para criar a tabela (caso não exista)
+def criar_tabela():
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario TEXT NOT NULL,
+            senha TEXT NOT NULL
+        )
+    ''')
+    conexao.commit()
+    conexao.close()
 
-#cursor.execute("INSERT INTO usuarios (usuario, senha) VALUES ('admin', 'adminpass')")
+# Função para adicionar usuário
+def adicionar_usuario(usuario, senha):
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute("INSERT INTO usuarios (usuario, senha) VALUES (?, ?)", (usuario, senha))
+    conexao.commit()
+    conexao.close()
 
-#cursor.execute("DELETE FROM usuarios WHERE id IN (2,3,4)")
+# Função para listar todos os usuários cadastrados
+def listar_usuarios():
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT * FROM usuarios")
+    usuarios = cursor.fetchall()
+    conexao.close()
 
-cursor.execute("SELECT * FROM usuarios")
-usuarios = cursor.fetchall()
-
-# Exibir os dados formatados
-print("ID | Usuário  | Senha")
-print("-" * 30)
-
-for usuario in usuarios:
-    print(f"{usuario[0]:<2} | {usuario[1]:<8} | {usuario[2]}")
-
-banco.commit()
-banco.close()
+    # Exibir os dados formatados
+    print("ID | Usuário  | Senha")
+    print("-" * 30)
+    for usuario in usuarios:
+        print(f"{usuario[0]:<2} | {usuario[1]:<8} | {usuario[2]}")
