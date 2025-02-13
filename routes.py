@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import db
 
 app = Flask(__name__)
@@ -11,6 +11,14 @@ def hello():
 def login():
     if request.method == 'GET':
         return render_template('template.html')
+    
+    if request.method =='POST':
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        db.adicionar_usuario(username, password) 
+
+        return redirect(url_for ('home'))
     
     
 @app.route('/home', methods = ['GET'])
