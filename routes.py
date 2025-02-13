@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
@@ -8,8 +8,10 @@ def hello():
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
-    pass # página de login
-
+    if request.method == 'GET':
+        return render_template('template.html')
+    
+    
 @app.route('/home', methods = ['GET'])
 def home():
     pass # página para acessar após o login
