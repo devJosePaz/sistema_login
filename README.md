@@ -16,12 +16,9 @@ Este é um sistema de login simples, desenvolvido com **Flask** e **SQLite**, pr
 ```
 login/
 │
-├── static/                # Arquivos estáticos (CSS, JS, imagens)
-│
 ├── templates/             # Arquivos HTML
 │   ├── login.html         # Página de login
-│   ├── home.html          # Página principal pós-login
-│
+│ 
 ├── database.db            # Banco de dados SQLite
 │
 ├── db.py                  # Módulo de gerenciamento do banco de dados
