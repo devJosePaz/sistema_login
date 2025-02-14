@@ -86,4 +86,4 @@ Este projeto é um ponto de partida. Se quiser contribuir, sinta-se à vontade p
 
 ---
 
-📌 **Autor**: [Seu Nome]
+📌 **Autor**: José Paz
