@@ -23,4 +23,4 @@ def login():
     
 @app.route('/home', methods = ['GET'])
 def home():
-    pass # página para acessar após o login
+    return "Homepage acessada!"

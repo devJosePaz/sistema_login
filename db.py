@@ -1,4 +1,8 @@
 import sqlite3
+import hashlib
+
+def hash(senha):
+    return hashlib.sha256(senha.encode()).hexdigest()
 
 # Função para conectar ao banco de dados
 def conectar():
@@ -22,7 +26,10 @@ def criar_tabela():
 def adicionar_usuario(usuario, senha):
     conexao = conectar()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO usuarios (usuario, senha) VALUES (?, ?)", (usuario, senha))
+
+    senha_hash = hash(senha)
+    cursor.execute("INSERT INTO usuarios (usuario, senha) VALUES (?, ?)", (usuario, senha_hash))
+
     conexao.commit()
     conexao.close()
 
@@ -39,3 +46,19 @@ def listar_usuarios():
     print("-" * 30)
     for usuario in usuarios:
         print(f"{usuario[0]:<2} | {usuario[1]:<8} | {usuario[2]}")
+
+def deletar_usuario(id):
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute("DELETE FROM usuarios WHERE id = ?", (id,))
+    conexao.commit()
+    conexao.close()
+
+def deletar_todos_usuarios():
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute("DELETE FROM usuarios")
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='usuarios'")  # Reseta o ID
+    conexao.commit()
+    conexao.close()
+    print("Todos os usuários foram removidos e o ID foi resetado.")
